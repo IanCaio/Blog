@@ -16,7 +16,7 @@
 title: IanDev Blog
 email: iancaio_dev@hotmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  My personal web-development blog!
+  My personal programming and web-development blog!
 baseurl: "/Blog" # the subpath of your site, e.g. /blog
 url: "https://iancaio.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 github_username: IanCaio
