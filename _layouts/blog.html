@@ -57,6 +57,11 @@
 			</div>
 
 			<div class="content post-list">
+				{% if page.content-description %}
+					<div class="content-description">
+						<h1>{{ page.content-description }}<h1>
+					</div>
+				{% endif %}
 				{{ content }}
 			</div>
 
