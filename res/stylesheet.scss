@@ -321,6 +321,17 @@ $post-description-color: lighten(#000000, 20%);
 					width: 125%;
 				}
 
+				//Header that will display the author of the post
+				h6.post-author{
+					//To ignore a little bit of the margin from the upper element
+					margin-top: -2vh;
+					margin-bottom: 6vh;
+					text-align: right;
+					font-size: 0.8rem;
+
+					color: lighten($post-content-color, 10%);
+				}
+
 				p {
 					margin-bottom: 1rem;
 				}
