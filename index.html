@@ -1,0 +1,40 @@
+---
+title: "IanDev Blog - Homepage"
+layout: blog
+---
+{% assign numberposts = site.posts | size %}
+{% if numberposts == 0 %}
+<div class="post">
+	<div class="post-title">
+		<h1>Sorry, we don't have any articles right now!</h1>
+	</div>
+	<div class="post-description">
+		<p>Maybe the author should stop being lazy and writing something already..</p>
+	</div>
+</div>
+{% else %}
+{% for post in site.posts %}
+{% if post.category == "Front-End" %}
+	{% assign colormodifier = "front-end" %}
+{% elsif post.category == "Back-End" %}
+	{% assign colormodifier = "back-end" %}
+{% elsif post.category == "Security" %}
+	{% assign colormodifier = "security" %}
+{% elsif post.category == "Others" %}
+	{% assign colormodifier = "others" %}
+{% endif %}
+	<div class="post {{ colormodifier }}">
+		<div class="post-title">
+			<h1>{{ post.title }}</h1>
+		</div>
+		<div class="post-info">
+			<h5>Category: {{ post.category }}</h5>
+			<h5>Date: {{ post.date }}</h5>
+		</div>
+		<div class="post-description">
+			{{ post.excerpt }}
+			<h5 class="post-link"><a href="{{ site.baseurl }}{{ post.url }}" alt="post-link">read more</a></h5>
+		</div>
+	</div>
+{% endfor %}
+{% endif %}

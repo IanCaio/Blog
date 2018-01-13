@@ -1,0 +1,10 @@
+// --------------------------------------------------
+// Box-Sizing SASS mixins
+// --------------------------------------------------
+
+// Flexbox display
+@mixin box-sizing($value) {
+  -webkit-box-sizing: $value;
+  -moz-box-sizing: $value;
+  box-sizing: $value;
+}

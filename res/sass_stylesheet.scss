@@ -1,0 +1,485 @@
+/* Import some mixins that will make it easier to use flexbox in a compatible manner */
+@import 'flexbox-mixins';
+
+/* Import a mixin for the transition CSS property */
+@import 'transition-mixins';
+
+/* Import a mixin for the transform CSS property */
+@import 'transform-mixins';
+
+/* Import a mixin for the box-sizing CSS property */
+@import 'boxsizing-mixins';
+
+/* Import a mixin for the box-shadow CSS property */
+@import 'boxshadow-mixins';
+
+/* Import a mixin for CSS linear gradients */
+@import 'lineargradient-mixins';
+
+/* CSS RESPONSIVENESS VARIABLES */
+$min-aspect-ratio: "4/3";
+$min-width: 800px;
+$min-height: 600px;
+
+html {
+	@include box-sizing(border-box);
+}
+*, *:after, *:before {
+	@include box-sizing(inherit);
+}
+
+//Reset Margin Padding
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: Helvetica;
+}
+
+$header-bg: #ff8000;
+$header-border: #ff5f00;
+$header-color: #ffffff;
+
+//HEADER DEFAULT LAYOUT
+.header {
+	display: table;
+
+	width: 100%; //% instead of vw to ignore sidebar
+	height: 25vh;
+
+	color: $header-color;
+	background-color: $header-bg;
+	border-bottom: 3vh solid $header-border;
+
+	padding: 1vh 3vw 1vh 3vw;
+
+	.header-logo {
+		display: table-cell;
+		vertical-align: middle;
+		width: 30vh;
+		height: 20vh;
+		img {
+			height: 100%;
+		}
+	}
+
+	.header-title {
+		display: table-cell;
+		vertical-align: top;
+		text-align: left;
+		h1 {
+			font-size: 8vh;
+			margin-left: -8vh;
+		}
+		h2 {
+			font-size: 5vh;
+			margin-top: 2vh;
+		}
+	}
+
+	.header-description {
+		display: table-cell;
+		vertical-align: bottom;
+		text-align: right;
+
+		padding-right: 10%;
+		padding-bottom: 1vh;
+
+		width: 50%;
+		h5 {
+			font-size: 3vh;
+		}
+	}
+}
+
+//HEADER WITH FALLBACK LAYOUT (only changes with aspect-ratio)
+@media not screen and (min-aspect-ratio: $min-aspect-ratio) and (min-width: $min-width) and (min-height: $min-height) {
+	.header {
+		height: 20vh;
+		border-bottom: 1vh solid $header-border;
+		padding: 1vh 2vw 1vh 2vw;
+
+		.header-logo{
+			width: 27vh;
+			height: 18vh;
+		}
+		.header-title {
+			h1 {
+				font-size: 8vh;
+				margin-left: -2vh;
+			}
+			h2 {
+				font-size: 5vh;
+				margin-top: 2vh;
+			}
+		}
+		.header-description {
+			display: none;
+		}
+	}
+}
+
+$content-bg: #ffffff; //Default content BG
+$post-list-bg: #bababa;
+$sidebar-bg: #0f0f0f;
+$categories-color: #ff8000;
+
+
+//Post element colors
+//Default (The fall back for any post that doesn't have a color modifier)
+$post-title-bg: #333366;
+$post-title-color: #ffffff;
+$post-info-bg: darken($post-title-bg, 10%);
+$post-info-color: #ffffff;
+
+//FrontEnd
+$frontend-title-bg: #f16529;
+$frontend-title-color: #ffffff;
+$frontend-info-bg: #e44d26; 
+$frontend-info-color: #ffffff;
+//BackEnd
+$backend-title-bg: #f2c33c;
+$backend-title-color: #ffffff;
+$backend-info-bg: #e9a53c;
+$backend-info-color: #ffffff;
+//Security
+$security-title-bg: #333366;
+$security-title-color: #ffffff;
+$security-info-bg: darken($security-title-bg, 10%);
+$security-info-color: #ffffff;
+//Others
+$others-title-bg: #0aa40c;
+$others-title-color: #ffffff;
+$others-info-bg: #0f791c;
+$others-info-color: #ffffff;
+
+
+$post-content-bg: #ffffff;
+$post-content-color: lighten(#000000, 10%);
+$post-description-bg: #ffffff;
+$post-description-color: lighten(#000000, 20%);
+
+//BLOG BODY DEFAULT LAYOUT
+.blog-body {
+	display: table;
+	width: 100%;
+	height: 75vh;
+
+	.left-sidebar, .right-sidebar {
+		display: table-cell;
+
+		vertical-align: top;
+
+		background-color: $sidebar-bg;
+	}
+
+	.left-sidebar {
+		width: 10%;
+
+		a {
+			color: $categories-color;
+			text-decoration: none;
+		}
+		a:hover {
+			color: darken($categories-color, 30%);
+		}
+
+		.category-link {
+			width: 100%;
+
+			padding: 2vh 15% 2vh 15%;
+
+			img {
+				width: 100%;
+			}
+			h4 {
+				text-align: center;
+				font-size: 2.5vh;
+			}
+		}
+		.category-link:hover {
+			background-color: rgba(255,255,255,0.3);
+		}
+	}
+
+	//The content column
+	.content {
+		display: table-cell;
+
+		vertical-align: top;
+
+		background-color: $content-bg;
+	}
+
+	//Modifier of the content column for a list of posts
+	.post-list {
+		background-color: $post-list-bg;
+
+		padding: 5vh 2% 5vh 2%;
+
+		.post {
+			width: 100%;
+
+			margin-top: 2vh;
+			margin-bottom: 3vh;
+
+			.post-title {
+				width: 100%;
+
+				background-color: $post-title-bg;
+				text-align: center;
+				color: $post-title-color;
+
+				padding: 0.5rem 1rem 0.5rem 1rem;
+
+				border-radius: 1rem 1rem 0 0;
+			}
+			.post-info {
+				display: table;
+				width: 100%;
+
+				background-color: $post-info-bg;
+				color: $post-info-color;
+
+				h5 {
+					display: table-cell;
+					text-align: center;
+				}
+			}
+			.post-description {
+				width: 100%;
+
+				padding: 1rem 2rem 1rem 2rem;
+				background-color: $post-description-bg;
+				color: $post-description-color;
+
+				border-radius: 0 0 1rem 1rem;
+
+				h5 {
+					text-align: center;
+					margin-top: 0.5rem;
+					a {
+						color: lighten($post-description-color, 10%);
+						text-decoration-style: dotted;
+					}
+				}
+			}
+		}
+	}
+
+	//Modifier for the content layout for a full blog post
+	.post-complete {
+		.post {
+			width: 100%;
+
+			.post-title {
+				width: 100%;
+
+				padding: 3vh 5%;
+
+				background-color: $post-title-bg;
+				text-align: center;
+				color: $post-title-color;
+			}
+			.post-info {
+				display: table;
+				width: 100%;
+
+				padding: 1vh 0;
+
+				background-color: $post-info-bg;
+				color: $post-info-color;
+
+				h5 {
+					display: table-cell;
+					text-align: center;
+				}
+			}
+			.post-content {
+				width: 100%;
+
+				padding: 5vh 10% 5vh 10%;
+				background-color: $post-content-bg;
+				color: $post-content-color;
+
+				//HERE YOU WILL SET ALL THE MARKUP AND CONTENT LAYOUT:
+				//Special image that works as a header (negative margin to ignore padding)
+				.header-image {
+					//To compensate for ignoring the padding
+					margin-bottom: 5vh;
+					margin-top: -5vh;
+					//Small hack: (-12.5% is related to the 80% available width, which is a total of 10%
+					//		related to the full 100% width, which is the padding)
+					margin-left: -12.5%;
+					//Small hack: (125% is related to the 80% available width, which is equal to 100%
+					//		related to the full width)
+					width: 125%;
+				}
+
+				p {
+					margin-bottom: 1rem;
+				}
+				a {
+					color: #505050;
+					text-decoration-style: dotted;
+					text-decoration-color: #202020;
+				}
+				a:hover {
+					color: #202020;
+				}
+			}
+		}
+	}
+
+	//Post color modifiers
+	.post.front-end {
+		.post-title {
+			background-color: $frontend-title-bg;
+			color: $frontend-title-color;
+		}
+		.post-info {
+			background-color: $frontend-info-bg;
+			color: $frontend-info-color;
+		}
+	}
+	.post.back-end {
+		.post-title {
+			background-color: $backend-title-bg;
+			color: $backend-title-color;
+		}
+		.post-info {
+			background-color: $backend-info-bg;
+			color: $backend-info-color;
+		}
+	}
+	.post.security {
+		.post-title {
+			background-color: $security-title-bg;
+			color: $security-title-color;
+		}
+		.post-info {
+			background-color: $security-info-bg;
+			color: $security-info-color;
+		}
+	}
+	.post.others {
+		.post-title {
+			background-color: $others-title-bg;
+			color: $others-title-color;
+		}
+		.post-info {
+			background-color: $others-info-bg;
+			color: $others-info-color;
+		}
+	}
+
+	.right-sidebar {
+		width: 20%;
+
+		padding: 0 1% 0 1%;
+
+		img {
+			display: block;
+			width: 80%;
+			margin: 3vh auto;
+			border-radius: 50%;
+		}
+
+		.profile-description {
+			margin: 0 auto;
+
+			color: #ffffff;
+			text-align: center;
+			padding: 0 3% 3vh 3%;
+
+			h3 {
+				font-size: 2.5vh;
+				margin-bottom: 1vh;
+			}
+			p {
+				font-size: 1.5vh;
+				margin-bottom: 0.5vh;
+			}
+		}
+	}
+}
+
+//BLOG BODY FALLOUT LAYOUT (changes with aspect ratio and width/height)
+@media not screen and (min-aspect-ratio: $min-aspect-ratio) and (min-width: $min-width) and (min-height: $min-height) {
+	.blog-body {
+		height: 90vh;
+
+		.content {
+			display: table-header-group;
+		}
+
+		.post-list {
+			.post {
+				margin: 0 0 3vh 0;
+
+				.post-title {
+					border-radius: 0;
+				}
+				.post-description {
+					border-radius: 0;
+				}
+			}
+		}
+
+		.left-sidebar {
+			display: table-footer-group;
+			width: 100%;
+
+			.category-link {
+				padding: 3vh 30% 3vh 30%;
+			}
+		}
+
+		.right-sidebar {
+			width: 100%;
+
+			padding: 3vh 5% 3vh 5%;
+
+			.profile-description {
+				h3 {
+					font-size: 3vh;
+				}
+				p {
+					font-size: 2vh;
+				}
+			}
+		}
+	}
+}
+
+$footer-bg: $header-bg;
+$footer-border: $header-border;
+$footer-color: $header-color;
+
+.blog-footer {
+	width: 100%;
+	height: 10vh;
+
+	background-color: $footer-bg;
+	border-top: 2vh solid $footer-border;
+
+	padding: 2vh 10% 2vh 10%;
+
+	h4 {
+		color: $footer-color;
+		font-size: 2.5vh;
+	}
+}
+
+//BLOG FOOTER FALLOUT LAYOUT (changes with aspect ratio and width/height)
+@media not screen and (min-aspect-ratio: $min-aspect-ratio) and (min-width: $min-width) and (min-height: $min-height) {
+	.blog-footer {
+		border-top: 1vh solid $footer-border;
+
+		h4 {
+			font-size: 2vh;
+		}
+	}
+}

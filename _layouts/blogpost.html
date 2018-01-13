@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/res/stylesheet.css" />
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1" />
+		<meta charset="UTF-8"/>
+		<title>{{ page.title }}</title>
+	</head>
+	<body>
+		<div class="header">
+			<div class="header-logo">
+				<img src="{{ site.baseurl }}/imgs/navbar/Logo.svg" alt="LOGO" />
+			</div>
+
+			<div class="header-title">
+				<h1>Ian Dev</h1>
+				<h2>Blog</h2>
+			</div>
+
+			<div class="header-description">
+				<h5>A place to discuss web development</h5>
+			</div>
+		</div>
+
+		<div class="blog-body">
+			<div class="left-sidebar">
+				<a href="{{ site.baseurl }}/index.html">
+					<div class="category-link">
+						<img src="{{ site.baseurl }}/imgs/blog/date.svg" alt="ByDate"/>
+						<h4>By Date</h4>
+					</div>
+				</a>
+				<a href="{{ site.baseurl }}/category/frontend.html">
+					<div class="category-link">
+						<img src="{{ site.baseurl }}/imgs/blog/frontend.svg" alt="FrontEnd"/>
+						<h4>Front-End</h4>
+					</div>
+				</a>
+				<a href="{{ site.baseurl }}/category/backend.html">
+					<div class="category-link">
+						<img src="{{ site.baseurl }}/imgs/blog/backend.svg" alt="BackEnd"/>
+						<h4>Back-End</h4>
+					</div>
+				</a>
+				<a href="{{ site.baseurl }}/category/security.html">
+					<div class="category-link">
+						<img src="{{ site.baseurl }}/imgs/blog/security.svg" alt="Security"/>
+						<h4>Security</h4>
+					</div>
+				</a>
+				<a href="{{ site.baseurl }}/category/others.html">
+					<div class="category-link">
+						<img src="{{ site.baseurl }}/imgs/blog/others.svg" alt="Others"/>
+						<h4>Others</h4>
+					</div>
+				</a>
+			</div>
+
+			<div class="content post-complete">
+{% if page.category == "Front-End" %}
+	{% assign colormodifier = "front-end" %}
+{% elsif page.category == "Back-End" %}
+	{% assign colormodifier = "back-end" %}
+{% elsif page.category == "Security" %}
+	{% assign colormodifier = "security" %}
+{% elsif page.category == "Others" %}
+	{% assign colormodifier = "others" %}
+{% endif %}
+				<div class="post {{ colormodifier }}">
+					<div class="post-title">
+						<h1>{{ page.title }}</h1>
+					</div>
+					<div class="post-info">
+						<h5>Category: {{ page.category }}</h5>
+						<h5>Date: {{ page.date }}</h5>
+					</div>
+					<div class="post-content">
+						{% if page.header-image %}
+						<img class="header-image" src="{{ site.baseurl }}{{ page.header-image }}" alt="HeaderImage"/>
+						{% endif %}
+						{{ content }}
+					</div>
+				</div>
+			</div>
+
+			<div class="right-sidebar">
+				<img src="{{ site.baseurl }}/imgs/blog/profile.jpg" alt="PROFILE" />
+				<div class="profile-description">
+					<h3>About the author:</h3>
+					<p>
+						My first contact with programming was when I was about 8 years old, borrowing a Visual Basic book from my father. As a kid,
+						my interest with coding was mostly to try to make games, but as I grew I also started to become enthusiastic with
+						understanding better how things worked at their core.
+					</p>
+					<p>
+						I really enjoy programming in C, which is probably my favorite language, but also have contact with others like Javascript, Ruby,
+						amongst others. I'm currently turning my focus towards web-development, mostly front-end, but also trying to keep in touch and learn
+						some the back-end tools.
+					</p>
+					<p>
+						This blog is mean't to share some of the knowledge I acquired through my studies and start discussions about web-dev.
+					</p>
+					<p>
+						IRL, I really love surfing!
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="blog-footer">
+			<h4>Copyright &copy; 2018 - Ian Caio</h4>
+		</div>
+	</body>
+</html>
