@@ -9,14 +9,14 @@
 		<h4>Leave a comment</h4>
 		<form method="POST" action="{{ page.comment-post-link }}">
 			<h5>Reply ID: <span>(filled automatically)</span></h5>
-			<input type="text" name="fields[parent]" readonly/>
+			<input type="text" name="fields[parent]" disabled readonly/>
 			<h5>Name:</h5>
 			<input type="text" name="fields[name]"/>
 			<h5>Github Account: <span>(optional for displaying avatar)</span></h5>
-			<input type="text" name="fields[github]"/>
+			<input type="text" name="fields[github]" disabled readonly/>
 			<h5>Comment:</h5>
 			<textarea name="fields[comment]"></textarea>
-			<button>Send</button>
+			<button type="submit">Send</button>
 		</form>
 	</div>
 	<script type="text/javascript">
