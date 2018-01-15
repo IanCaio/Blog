@@ -85,6 +85,15 @@
 						{% endif %}
 						{{ content }}
 					</div>
+
+					<!-- If we enabled comments include the comment section -->
+					{% if page.comment-section %}
+						{% include comment-section.html %}
+					{% else %}
+						<div class="comment-section">
+							<h2>Comments are disabled for this article</h2>
+						</div>
+					{% endif %}
 				</div>
 			</div>
 

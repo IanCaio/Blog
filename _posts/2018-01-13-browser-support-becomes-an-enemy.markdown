@@ -4,6 +4,8 @@ title:  "B(r)owser Koopa: Browser support becomes an enemy"
 author: "Ian Caio"
 date:   2018-01-13 01:15:34 -0200
 header-image: "/imgs/posts/1/notebook.png"
+comment-section: "https://iancaio.github.io/blog-comments/getTestComments.json"
+comment-post-link: "https://api.staticman.net/v2/entry/IanCaio/blog-comments/master/testcomments"
 category: "Front-End"
 ---
 I want to start writing on this blog talking about an issue that probably
