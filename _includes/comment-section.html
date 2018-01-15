@@ -1,0 +1,66 @@
+<!-- Start of Comment Section -->
+<div class="comment-section">
+	<h2>Comments</h2>
+
+	<div id="comment-list" class="comment-list">
+	</div>
+
+	<div class="comment-form">
+		<h4>Leave a comment</h4>
+		<form method="POST" action="{{ page.comment-post-link }}">
+			<h5>Reply ID: <span>(filled automatically)</span></h5>
+			<input type="text" name="fields[parent]" readonly/>
+			<h5>Name:</h5>
+			<input type="text" name="fields[name]"/>
+			<h5>Github Account: <span>(optional for displaying avatar)</span></h5>
+			<input type="text" name="fields[github]"/>
+			<h5>Comment:</h5>
+			<textarea name="fields[comment]"></textarea>
+			<button>Send</button>
+		</form>
+	</div>
+	<script type="text/javascript">
+		function loadComments() {
+			xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200){
+					var obj = JSON.parse(this.responseText);
+					document.getElementById("comment-list").innerHTML = buildComments(obj);
+				}
+			};
+			xhttp.open("GET", "{{ page.comment-section }}", true);
+			xhttp.send();
+		}
+		function buildComments(JSONArr){
+			var currentText = "";
+
+			for(var i = 0; i < JSONArr.length; i++){
+				currentText += "<div class=\"comment\">\n";
+				currentText += "\t<div class=\"comment-avatar\">\n";
+				if(JSONArr[i].github){
+					currentText += "\t\t<img src=\"https://avatars.githubusercontent.com/"+JSONArr[i].github+"\">\n";
+				} else {
+					currentText += "\t\t<img src=\"https://avatars.githubusercontent.com/staticmanapp\">\n";
+				}
+				currentText += "\t</div>\n";
+				currentText += "\t<div class=\"comment-body\">\n";
+				currentText += "\t\t<p><strong>"+JSONArr[i].name+"</strong> <em>"+JSONArr[i].date+"</em></p>\n";
+				currentText += "\t\t<p>"+JSONArr[i].comment+"</p>\n";
+				currentText += "\t</div>\n";
+				currentText += "\t<div class=\"comment-controls\">\n";
+				currentText += "\t\t<h6><a href=\"#\">Reply</a></h6>\n";
+				currentText += "\t</div>\n";
+				if(JSONArr[i].reply){
+					currentText += buildComments(JSONArr[i].reply);
+				}
+				currentText += "</div>\n";
+			}
+
+			return currentText;
+		}
+
+		//Load Comments (Later can be a IIFE)
+		loadComments();
+	</script>
+</div>
+<!-- End of Comment Section -->

@@ -86,85 +86,14 @@
 						{{ content }}
 					</div>
 
-					<!-- Start of Comment Section -->
-					<div class="comment-section">
-						<h2>Comments</h2>
-
-						<div class="comment-list">
-							<div class="comment">
-								<div class="comment-avatar">
-									<img src="https://avatars.githubusercontent.com/iancaio" alt="Avatar" />
-								</div>
-								<div class="comment-body">
-									<p><strong>Name</strong> <em>12/01/2018</em></p>
-									<p>
-										 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam enim turpis, condimentum vel pellentesque non, condimentum laoreet magna. Donec congue fringilla dui, at convallis velit molestie in. Sed ultrices, ligula sit amet aliquet scelerisque, nibh leo volutpat ligula, eget varius nunc nulla vel justo. Nam sit amet congue eros. Mauris eget nisi metus. Proin ultrices neque sit amet arcu commodo, quis laoreet dolor varius. Donec consequat massa quis enim elementum consequat. In placerat diam ut turpis egestas, at mollis nunc tempus. Maecenas tellus ante, ultricies vel viverra non, condimentum eget lorem. Cras aliquam lacus in ex ultrices maximus.
-									</p>
-								</div>
-								<div class="comment-controls">
-									<h6><a href="#">Reply</a></h6>
-								</div>
-							<div class="comment">
-								<div class="comment-avatar">
-									<img src="https://avatars.githubusercontent.com/iancaio" alt="Avatar" />
-								</div>
-								<div class="comment-body">
-									<p><strong>Name</strong> <em>12/01/2018</em></p>
-									<p>
-										 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam enim turpis, condimentum vel pellentesque non, condimentum laoreet magna. Donec congue fringilla dui, at convallis velit molestie in. Sed ultrices, ligula sit amet aliquet scelerisque, nibh leo volutpat ligula, eget varius nunc nulla vel justo. Nam sit amet congue eros. Mauris eget nisi metus. Proin ultrices neque sit amet arcu commodo, quis laoreet dolor varius. Donec consequat massa quis enim elementum consequat. In placerat diam ut turpis egestas, at mollis nunc tempus. Maecenas tellus ante, ultricies vel viverra non, condimentum eget lorem. Cras aliquam lacus in ex ultrices maximus.
-									</p>
-								</div>
-								<div class="comment-controls">
-									<h6><a href="#">Reply</a></h6>
-								</div>
-							<div class="comment">
-								<div class="comment-avatar">
-									<img src="https://avatars.githubusercontent.com/iancaio" alt="Avatar" />
-								</div>
-								<div class="comment-body">
-									<p><strong>Name</strong> <em>12/01/2018</em></p>
-									<p>
-										 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam enim turpis, condimentum vel pellentesque non, condimentum laoreet magna. Donec congue fringilla dui, at convallis velit molestie in. Sed ultrices, ligula sit amet aliquet scelerisque, nibh leo volutpat ligula, eget varius nunc nulla vel justo. Nam sit amet congue eros. Mauris eget nisi metus. Proin ultrices neque sit amet arcu commodo, quis laoreet dolor varius. Donec consequat massa quis enim elementum consequat. In placerat diam ut turpis egestas, at mollis nunc tempus. Maecenas tellus ante, ultricies vel viverra non, condimentum eget lorem. Cras aliquam lacus in ex ultrices maximus.
-									</p>
-								</div>
-								<div class="comment-controls">
-									<h6><a href="#">Reply</a></h6>
-								</div>
-							</div>
-							</div>
-							</div>
-							<div class="comment">
-								<div class="comment-avatar">
-									<img src="https://avatars.githubusercontent.com/iancaio" alt="Avatar" />
-								</div>
-								<div class="comment-body">
-									<p><strong>Name</strong> <em>12/01/2018</em></p>
-									<p>
-										 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam enim turpis, condimentum vel pellentesque non, condimentum laoreet magna. Donec congue fringilla dui, at convallis velit molestie in. Sed ultrices, ligula sit amet aliquet scelerisque, nibh leo volutpat ligula, eget varius nunc nulla vel justo. Nam sit amet congue eros. Mauris eget nisi metus. Proin ultrices neque sit amet arcu commodo, quis laoreet dolor varius. Donec consequat massa quis enim elementum consequat. In placerat diam ut turpis egestas, at mollis nunc tempus. Maecenas tellus ante, ultricies vel viverra non, condimentum eget lorem. Cras aliquam lacus in ex ultrices maximus.
-									</p>
-								</div>
-								<div class="comment-controls">
-									<h6><a href="#">Reply</a></h6>
-								</div>
-							</div>
+					<!-- If we enabled comments include the comment section -->
+					{% if page.comment-section %}
+						{% include comment-section.html %}
+					{% else %}
+						<div class="comment-section">
+							<h2>Comments are disabled for this article</h2>
 						</div>
-
-						<div class="comment-form">
-							<h4>Leave a comment</h4>
-							<form>
-								<h5>Reply ID: <span>(filled automatically)</span></h5>
-								<input type="text" name="reply-id" readonly/>
-								<h5>Name:</h5>
-								<input type="text" name="name"/>
-								<h5>Github Account: <span>(optional for displaying avatar)</span></h5>
-								<input type="text" name="githubacc"/>
-								<h5>Comment:</h5>
-								<textarea name="comment"></textarea>
-								<button>Send</button>
-							</form>
-						</div>
-					</div>
-					<!-- End of Comment Section -->
+					{% endif %}
 				</div>
 			</div>
 
