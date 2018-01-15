@@ -406,6 +406,7 @@ $post-description-color: lighten(#000000, 20%);
 							}
 						}
 						.comment-controls {
+							clear: both; //To clear the Avatar float before the next comment
 							h6 {
 								text-align: right;
 							}
