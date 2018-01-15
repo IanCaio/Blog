@@ -1,3 +1,6 @@
+---
+---
+
 /* Import some mixins that will make it easier to use flexbox in a compatible manner */
 @import 'flexbox-mixins';
 
@@ -219,6 +222,41 @@ $post-description-color: lighten(#000000, 20%);
 
 		padding: 5vh 2% 5vh 2%;
 
+		//A header that will describe what the page is showing
+		.content-description {
+			//  This is a possible hack if you want to make the header fluid (ignore margins and
+			//  occupy the whole content div). But it's an ugly hack, because it has to account
+			//  for the fact that the content div padding is based on the body width, so 2% isnt
+			//  2% in the scope of the content-description percentages.
+			//
+			//  | LeftSidebar  |------------{------Content Div-------}------------|  RightSidebar |
+			//  |  Width       | padding    {         content        } padding    |   Width       |
+			//  | 10% of body  | 2% of body {       66% of body      } 2% of body |  20% of body  |
+			//
+			//  So we would have:
+			//  Width:
+			//    66% is equivalent to width: 100%, and we needs to reach 70%
+			//    100*(70/66) ~= 106.06%
+			//  Margin-Left:
+			//    66% is equivalent to margin-left: 100%, and we need to reach -2%
+			//    100*(2/66) ~= 3.03%
+			//
+			//width: 106.06%;
+			//margin-left: -3.03%;
+			//margin-top: -5vh;
+
+			//This is an alternative for not using the previous hack, which also looks good and has
+			//a much easier maintenance.
+			width: 100%;
+			border-radius: 1rem;
+
+			padding: 3vh 5%;
+
+			background-color: $post-title-bg;
+			text-align: center;
+			color: $post-title-color;
+		}
+
 		.post {
 			width: 100%;
 
@@ -316,6 +354,17 @@ $post-description-color: lighten(#000000, 20%);
 					//Small hack: (125% is related to the 80% available width, which is equal to 100%
 					//		related to the full width)
 					width: 125%;
+				}
+
+				//Header that will display the author of the post
+				h6.post-author{
+					//To ignore a little bit of the margin from the upper element
+					margin-top: -2vh;
+					margin-bottom: 6vh;
+					text-align: right;
+					font-size: 0.8rem;
+
+					color: lighten($post-content-color, 10%);
 				}
 
 				p {
@@ -416,6 +465,16 @@ $post-description-color: lighten(#000000, 20%);
 		}
 
 		.post-list {
+			.content-description {
+				//  If you are using the hack mentioned before, the mobile fall back would have to
+				//  go back to regular sizing and marging because the padding would be gone.
+				//
+				//  width: 100%;
+				//  margin: 0;
+
+				border-radius: 0;
+			}
+
 			.post {
 				margin: 0 0 3vh 0;
 

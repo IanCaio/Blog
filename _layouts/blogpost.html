@@ -76,7 +76,12 @@
 					</div>
 					<div class="post-content">
 						{% if page.header-image %}
-						<img class="header-image" src="{{ site.baseurl }}{{ page.header-image }}" alt="HeaderImage"/>
+							<img class="header-image" src="{{ site.baseurl }}{{ page.header-image }}" alt="HeaderImage"/>
+						{% endif %}
+						{% if page.author %}
+							<h6 class="post-author">Written by {{ page.author }}</h6>
+						{% else %}
+							<h6 class="post-author"><em>Author unknown</em></h6>
 						{% endif %}
 						{{ content }}
 					</div>
@@ -86,23 +91,7 @@
 			<div class="right-sidebar">
 				<img src="{{ site.baseurl }}/imgs/blog/profile.jpg" alt="PROFILE" />
 				<div class="profile-description">
-					<h3>About the author:</h3>
-					<p>
-						My first contact with programming was when I was about 8 years old, borrowing a Visual Basic book from my father. As a kid,
-						my interest with coding was mostly to try to make games, but as I grew I also started to become enthusiastic with
-						understanding better how things worked at their core.
-					</p>
-					<p>
-						I really enjoy programming in C, which is probably my favorite language, but also have contact with others like Javascript, Ruby,
-						amongst others. I'm currently turning my focus towards web-development, mostly front-end, but also trying to keep in touch and learn
-						some the back-end tools.
-					</p>
-					<p>
-						This blog is mean't to share some of the knowledge I acquired through my studies and start discussions about web-dev.
-					</p>
-					<p>
-						IRL, I really love surfing!
-					</p>
+					{% include author-description.html %}
 				</div>
 			</div>
 		</div>

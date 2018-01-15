@@ -1,6 +1,7 @@
 ---
 layout: blogpost
 title:  "B(r)owser Koopa: Browser support becomes an enemy"
+author: "Ian Caio"
 date:   2018-01-13 01:15:34 -0200
 header-image: "/imgs/posts/1/notebook.png"
 category: "Front-End"
