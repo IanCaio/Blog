@@ -378,6 +378,11 @@ $post-description-color: lighten(#000000, 20%);
 				a:hover {
 					color: #202020;
 				}
+				img {
+					display: block;
+					width: 60%;
+					margin: 10px auto;
+				}
 			}
 
 			.comment-section {
