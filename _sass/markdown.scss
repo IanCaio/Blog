@@ -1,0 +1,94 @@
+//Specific markdown variables
+$blockquote-bg: lighten(#000000, 90%);
+$blockquote-border: lighten($header-bg, 8%);
+
+//HERE YOU WILL SET ALL THE MARKUP AND CONTENT LAYOUT:
+//Special image that works as a header (negative margin to ignore padding)
+.header-image {
+	//To compensate for ignoring the padding
+	margin-bottom: 5vh;
+	margin-top: -5vh;
+	//Small hack: (-12.5% is related to the 80% available width, which is a total of 10%
+	//		related to the full 100% width, which is the padding)
+	margin-left: -12.5%;
+	//Small hack: (125% is related to the 80% available width, which is equal to 100%
+	//		related to the full width)
+	width: 125%;
+}
+
+//Header that will display the author of the post
+h6.post-author{
+	//To ignore a little bit of the margin from the upper element
+	margin-top: -2vh;
+	margin-bottom: 6vh;
+	text-align: right;
+	font-size: 0.8rem;
+	color: lighten($post-content-color, 10%);
+}
+
+p {
+	margin-bottom: 1.5rem;
+}
+a {
+	color: #505050;
+	text-decoration-style: dotted;
+	text-decoration-color: #202020;
+}
+a:hover {
+	color: #202020;
+}
+figure {
+	margin: 1.5rem;
+	img {
+		width: 100%;
+		margin: 0;
+	}
+	figcaption {
+		text-align: center;
+		font-size: 0.8rem;
+		font-style: italic;
+	}
+}
+figure.small {
+	width: 30%;
+}
+figure.medium {
+	width: 60%;
+}
+figure.large {
+	width: 100%;
+}
+figure.center {
+	display: block;
+	margin: 1.5rem auto;
+}
+
+blockquote {
+	display: block;
+	position: relative;
+	margin: 3rem 0 3rem 0;
+	padding: 1rem 2.5rem;
+	background-color: $blockquote-bg;
+
+	border-radius: 0.5rem;
+	border-left: 0.5rem solid $blockquote-border;
+
+	p {
+		margin: 0;
+		font-style: italic;
+	}
+	p:first-child:before {
+		position: absolute;
+		top: 0;
+		left: 0.5rem;
+		content: '“';
+		font-size: 4rem;
+		text-align: left;
+	}
+	span.author {
+		display: block;
+		text-align: right;
+		padding-right: 0.5rem;
+		font-size: 0.9rem;
+	}
+}
