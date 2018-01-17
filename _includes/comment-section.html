@@ -20,6 +20,7 @@
 		</form>
 	</div>
 	<script type="text/javascript">
+		//AJAX call
 		function loadComments() {
 			xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
@@ -31,6 +32,32 @@
 			xhttp.open("GET", "{{ page.comment-section }}", true);
 			xhttp.send();
 		}
+		//Formating the comment strings (dealing with line breaks and escaping HTML)
+		function formatStr(str){
+			var formated_str = String(str);
+
+			//Escape HTML
+			var escapeMap = {
+				'&': '&amp;',
+				'<': '&lt;',
+				'>': '&gt;',
+				'"': '&quot;',
+				"'": '&#39;',
+				'/': '&#x2F;',
+				'`': '&#x60;',
+				'=': '&#x3D;'
+			};
+
+			formated_str = formated_str.replace(/[&<>"'`=\/]/g, function (s) {
+				return escapeMap[s];
+			});
+
+			//Deal with line breaks
+			formated_str = formated_str.replace(/(?:\r\n|\r|\n)/g, '<br />');
+
+			return formated_str;
+		}
+		//Building the comment HTML
 		function buildComments(JSONArr){
 			var currentText = "";
 
@@ -38,14 +65,14 @@
 				currentText += "<div class=\"comment\">\n";
 				currentText += "\t<div class=\"comment-avatar\">\n";
 				if(JSONArr[i].github){
-					currentText += "\t\t<img src=\"https://avatars.githubusercontent.com/"+JSONArr[i].github+"\">\n";
+					currentText += "\t\t<img src=\"https://avatars.githubusercontent.com/"+encodeURI(formatStr(JSONArr[i].github))+"\">\n";
 				} else {
 					currentText += "\t\t<img src=\"https://avatars.githubusercontent.com/staticmanapp\">\n";
 				}
 				currentText += "\t</div>\n";
 				currentText += "\t<div class=\"comment-body\">\n";
-				currentText += "\t\t<p><strong>"+JSONArr[i].name+"</strong> <em>"+JSONArr[i].date+"</em></p>\n";
-				currentText += "\t\t<p>"+JSONArr[i].comment+"</p>\n";
+				currentText += "\t\t<p><strong>"+formatStr(JSONArr[i].name)+"</strong> <em>"+formatStr(JSONArr[i].date)+"</em></p>\n";
+				currentText += "\t\t<p>"+formatStr(JSONArr[i].comment)+"</p>\n";
 				currentText += "\t</div>\n";
 				currentText += "\t<div class=\"comment-controls\">\n";
 				currentText += "\t\t<h6><a href=\"#\">Reply</a></h6>\n";
