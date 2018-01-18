@@ -70,11 +70,12 @@ Guilty as charged.
 {: .center}
 
 As I was doing some research I ran into a possible alternative:
-[Staticman App](https://staticman.net/). That opensource app opens the possibility of
+[Staticman App](https://github.com/eduardoboucas/staticman). That opensource app opens the possibility of
 posting information directly to a Github page through the Github API. You add the app's
 github account as a collaborator, HTTP/POST the forms to an url defined by the app and
 the content will be commited to your page repository in the path specified in the
 configuration file in one of the supported formats (`yml`, `yaml`, `json` or `frontmatter`).
+You can use the [public instance of the app](https://staticman.net/) or set up your own.
 
 Sounded very good, but there was still one thing I still wanted to circunvent, which was having
 to open the repository of the website for edition completely. It raises security concerns
