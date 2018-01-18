@@ -13,7 +13,7 @@ but there are many options out there, like Facebook Comments and Google+ Comment
 Even when choosing a third-party commenting system there are some advantadges and
 disvantadges about each one you'll have to pounder before choosing.
 But generally speaking, as tempting as it was to use a commenting system without
-worrying too much about any coding myself, except what I'd need to embbed it,
+worrying too much about any coding myself (except what I'd need to embbed it),
 I had a few reasons that made me reconsider it:
 
 ### Using third-party code makes your website only as secure as the third-party website
@@ -27,7 +27,7 @@ necessary security measures.
 
 But not only that: Unless you have a very popular website, it's likely those
 comment systems are much more valued targets to hackers than your website itself.
-And who knows if one of their attempts might succeed, it has
+And who knows if one of their attempts might succeed. It has
 [happened](https://www.csoonline.com/article/3076225/security/flaw-in-popular-wordpress-plug-in-jetpack-puts-over-a-million-websites-at-risk.html)
 [before](https://thehackernews.com/2017/10/disqus-comment-system-hacked.html)...
 
@@ -81,13 +81,13 @@ to open the repository of the website for edition completely. It raises security
 in the case of a breach in the App. You can still keep a regular backup of your website
 locally and easily remedy it in the case of a compromise, but I also had another idea:
 
-_Compartimentalization_.
+_Compartmentalization_.
 
 > In matters concerning information security, whether public or private sector,
 > compartmentalization is the limiting of access to information to persons or other entities
 > who need to know it in order to perform certain tasks.
 >
-> <span class="author">Wikipedia - Compartimentalization (information security)</span>
+> <span class="author">Wikipedia - Compartmentalization (information security)</span>
 
 Instead of opening the whole website repository, we could create one dedicated only to
 store and organize the comments. The website would then use AJAX (_Asynchronous Javascript
