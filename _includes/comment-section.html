@@ -26,7 +26,12 @@
 			xhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200){
 					var obj = JSON.parse(this.responseText);
-					document.getElementById("comment-list").innerHTML = buildComments(obj);
+					//Do we have any comments at all?
+					if(obj.length == 0){
+						document.getElementById("comment-list").innerHTML = "<p class=\"empty-list\">We have no comments yet. Be the first to comment!</p>";
+					} else {
+						document.getElementById("comment-list").innerHTML = buildComments(obj);
+					}
 				}
 			};
 			xhttp.open("GET", "{{ page.comment-section }}", true);

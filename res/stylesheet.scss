@@ -355,6 +355,13 @@ $post-description-color: lighten(#000000, 20%);
 				}
 
 				.comment-list {
+					//Message saying there are no comments
+					p.empty-list {
+						text-align: center;
+						font-size: 0.8rem;
+						font-style: italic;
+					}
+
 					.comment {
 						padding: 0.5rem 0 0.5rem 5%;
 
