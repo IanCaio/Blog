@@ -7,26 +7,69 @@
 
 	<div class="comment-form">
 		<h4>Leave a comment</h4>
-		<form method="POST" action="{{ page.comment-post-link }}">
+		<form id="comment-form-element" method="POST" action="{{ page.comment-post-link }}">
 			<h5>Reply ID: <span>(filled automatically)</span></h5>
-			<input type="text" name="fields[parent]" disabled readonly/>
+			<h5 id="cancel-reply" onclick="replyTo('');">Cancel Reply</h5>
+			<input type="text" name="fields[parent]" readonly/>
 			<h5>Name:</h5>
 			<input type="text" name="fields[name]"/>
 			<h5>Github Account: <span>(optional for displaying avatar)</span></h5>
-			<input type="text" name="fields[github]" disabled readonly/>
+			<input type="text" name="fields[github]"/>
 			<h5>Comment:</h5>
 			<textarea name="fields[comment]"></textarea>
 			<button type="submit">Send</button>
 		</form>
 	</div>
 	<script type="text/javascript">
+		// =================== COMMENT POSTING SCRIPTS ==================
+		//Avoid empty github or parent input to be sent
+		var commentForm = document.getElementById("comment-form-element");
+		commentForm.addEventListener("submit", function(){
+			var inputField = commentForm.getElementsByTagName("input");
+
+			for(var i = 0; i < inputField.length; i++){
+				//If the github field has no value but has a name (active) deactivate it (name="")
+				if ((inputField[i].name == "fields[github]") && !inputField[i].value){
+					inputField[i].name = "";
+				}
+				//If the parent field has no value but has a name (active) deactivate it (name="")
+				if ((inputField[i].name == "fields[parent]") && !inputField[i].value){
+					inputField[i].name = "";
+				}
+			}
+		});
+		//Fill reply field (parent field) => replyTo("ID"); to reply to ID and replyTo("") to cancel reply
+		function replyTo(id){
+			var inputField = commentForm.getElementsByTagName("input");
+
+			for(var i = 0; i < inputField.length; i++){
+				if(inputField[i].name == "fields[parent]"){
+					inputField[i].value = id;
+				}
+			}
+
+			//Show cancel button if we are adding a reply, remove it if we are removing a reply
+			if(id) {
+				document.getElementById("cancel-reply").style.display = "block";
+			} else {
+				document.getElementById("cancel-reply").style.display = "none";
+			}
+		}
+		// ==============================================================
+
+		// =================== COMMENT LOADING SCRIPTS ==================
 		//AJAX call
 		function loadComments() {
 			xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200){
 					var obj = JSON.parse(this.responseText);
-					document.getElementById("comment-list").innerHTML = buildComments(obj);
+					//Do we have any comments at all?
+					if(obj.length == 0){
+						document.getElementById("comment-list").innerHTML = "<p class=\"empty-list\">There are no comments yet. Be the first to comment!</p>";
+					} else {
+						document.getElementById("comment-list").innerHTML = buildComments(obj);
+					}
 				}
 			};
 			xhttp.open("GET", "{{ page.comment-section }}", true);
@@ -75,7 +118,7 @@
 				currentText += "\t\t<p>"+formatStr(JSONArr[i].comment)+"</p>\n";
 				currentText += "\t</div>\n";
 				currentText += "\t<div class=\"comment-controls\">\n";
-				currentText += "\t\t<h6><a href=\"#\">Reply</a></h6>\n";
+				currentText += "\t\t<h6><a href=\"#comment-form-element\" onclick=\"replyTo('"+JSONArr[i].id+"');\">Reply</a></h6>\n";
 				currentText += "\t</div>\n";
 				if(JSONArr[i].reply){
 					currentText += buildComments(JSONArr[i].reply);
@@ -88,6 +131,7 @@
 
 		//Load Comments (Later can be a IIFE)
 		loadComments();
+		// ==============================================================
 	</script>
 </div>
 <!-- End of Comment Section -->
