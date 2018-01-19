@@ -2,8 +2,10 @@
 layout: blogpost
 title:  "Making comment sections with Staticman"
 author: "Ian Caio"
-date:   2018-01-15 23:29:34 -0200
+date:   2018-01-19 16:57:42 -0200
 header-image: "/imgs/posts/2/staticman.png"
+comment-section: "https://iancaio.github.io/blog-comments/get/post2comments.json"
+comment-post-link: "https://api.staticman.net/v2/entry/IanCaio/blog-comments/master/post2comments"
 category: "Front-End"
 ---
 While researching about ways to implement comment sections in static webpages,
@@ -60,26 +62,23 @@ that use it. They now allow you to
 [disable](https://help.disqus.com/customer/portal/articles/1197204-making-your-activity-private)
 the public profile but still track your activity to build a profile of preferences,
 similar to Facebook. Some people might not be comfortable with those privacy concerns.
-
-### I'm a stubborn "reinvent the wheel" person
-
-Guilty as charged.
 {: .extra-margin}
 
 ## The alternative
 {: .center}
 
 As I was doing some research I ran into a possible alternative:
-[Staticman App](https://github.com/eduardoboucas/staticman). That opensource app opens the possibility of
-posting information directly to a Github page through the Github API. You add the app's
-github account as a collaborator, HTTP/POST the forms to an url defined by the app and
-the content will be commited to your page repository in the path specified in the
-configuration file in one of the supported formats (`yml`, `yaml`, `json` or `frontmatter`).
-You can use the [public instance of the app](https://staticman.net/) or set up your own.
+[Staticman App](https://github.com/eduardoboucas/staticman). That opensource app, written by
+Eduardo Bouças, opens the possibility of posting information directly to a Github page
+through the Github API. You add the app's github account as a collaborator, HTTP/POST the
+forms to an URL defined by the app and the content will be commited to your page repository
+on the path specified in the configuration file. Supported formats are `yml`, `yaml`, `json`
+or `frontmatter`. You can use the
+[public instance of the app](https://staticman.net/) or set up your own.
 
-Sounded very good, but there was still one thing I still wanted to circunvent, which was having
+It sounded very good, but there was still one thing I still wanted to circunvent, which was having
 to open the repository of the website for edition completely. It raises security concerns
-in the case of a breach in the App. You can still keep a regular backup of your website
+in the case of a breach in the app. You can (and should!) still keep a regular backup of your website
 locally and easily remedy it in the case of a compromise, but I also had another idea:
 
 _Compartmentalization_.
@@ -88,7 +87,7 @@ _Compartmentalization_.
 > compartmentalization is the limiting of access to information to persons or other entities
 > who need to know it in order to perform certain tasks.
 >
-> <span class="author">Wikipedia - Compartmentalization (information security)</span>
+> <span class="author">[Wikipedia - Compartmentalization (information security)](https://en.wikipedia.org/wiki/Compartmentalization_(information_security))</span>
 
 Instead of opening the whole website repository, we could create one dedicated only to
 store and organize the comments. The website would then use AJAX (_Asynchronous Javascript

@@ -41,12 +41,10 @@ p {
 	margin-bottom: 1.5rem;
 }
 a {
-	color: #505050;
-	text-decoration-style: dotted;
-	text-decoration-color: #202020;
+	color: $header-bg;
 }
 a:hover {
-	color: #202020;
+	color: darken($header-bg,20%);
 }
 figure {
 	margin: 1.5rem;
