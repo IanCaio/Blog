@@ -7,19 +7,35 @@
 
 	<div class="comment-form">
 		<h4>Leave a comment</h4>
-		<form method="POST" action="{{ page.comment-post-link }}">
+		<form id="comment-form-element" method="POST" action="{{ page.comment-post-link }}">
 			<h5>Reply ID: <span>(filled automatically)</span></h5>
 			<input type="text" name="fields[parent]" disabled readonly/>
 			<h5>Name:</h5>
 			<input type="text" name="fields[name]"/>
 			<h5>Github Account: <span>(optional for displaying avatar)</span></h5>
-			<input type="text" name="fields[github]" disabled readonly/>
+			<input type="text" name="fields[github]"/>
 			<h5>Comment:</h5>
 			<textarea name="fields[comment]"></textarea>
 			<button type="submit">Send</button>
 		</form>
 	</div>
 	<script type="text/javascript">
+		// =================== COMMENT POSTING SCRIPTS ==================
+		//Avoid empty github input to be sent
+		var commentForm = document.getElementById("comment-form-element");
+		commentForm.addEventListener("submit", function(){
+			var inputField = commentForm.getElementsByTagName("input");
+
+			for(var i = 0; i < inputField.length; i++){
+				//If the github field has no value but has a name (active) deactivate it (name="")
+				if ((inputField[i].name == "fields[github]") && !inputField[i].value){
+					inputField[i].name = "";
+				}
+			}
+		});
+		// ==============================================================
+
+		// =================== COMMENT LOADING SCRIPTS ==================
 		//AJAX call
 		function loadComments() {
 			xhttp = new XMLHttpRequest();
@@ -93,6 +109,7 @@
 
 		//Load Comments (Later can be a IIFE)
 		loadComments();
+		// ==============================================================
 	</script>
 </div>
 <!-- End of Comment Section -->
