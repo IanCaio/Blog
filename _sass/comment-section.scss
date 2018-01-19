@@ -56,6 +56,18 @@
 			margin-bottom: 2vh;
 		}
 		form {
+			//Special label to cancel reply
+			h5#cancel-reply {
+				display: none;
+				color: $header-bg;
+				cursor: pointer;
+				font-size: 0.6rem;
+				text-decoration: underline;
+			}
+			h5#cancel-reply:hover {
+				color: darken($header-bg, 20%);
+			}
+
 			h5 {
 				text-align: center;
 				margin-bottom: 0.3rem;
