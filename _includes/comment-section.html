@@ -28,7 +28,7 @@
 					var obj = JSON.parse(this.responseText);
 					//Do we have any comments at all?
 					if(obj.length == 0){
-						document.getElementById("comment-list").innerHTML = "<p class=\"empty-list\">We have no comments yet. Be the first to comment!</p>";
+						document.getElementById("comment-list").innerHTML = "<p class=\"empty-list\">There are no comments yet. Be the first to comment!</p>";
 					} else {
 						document.getElementById("comment-list").innerHTML = buildComments(obj);
 					}
