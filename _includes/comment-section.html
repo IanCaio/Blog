@@ -8,6 +8,7 @@
 	<div class="comment-form">
 		<h4>Leave a comment</h4>
 		<form id="comment-form-element" method="POST" action="{{ page.comment-post-link }}">
+			<input type="hidden" name="options[redirect]" value="{{ page.url | absolute_url }}"/>
 			<h5>Reply ID: <span>(filled automatically)</span></h5>
 			<h5 id="cancel-reply" onclick="replyTo('');">Cancel Reply</h5>
 			<input type="text" name="fields[parent]" readonly/>
