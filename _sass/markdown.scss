@@ -40,6 +40,9 @@ h1.center, h2.center, h3.center, h4.center, h5.center, h6.center {
 p {
 	margin-bottom: 1.5rem;
 }
+p.small-text {
+	font-size: 0.8rem;
+}
 a {
 	color: $header-bg;
 }
@@ -100,6 +103,23 @@ blockquote {
 		padding-right: 0.5rem;
 		font-size: 0.9rem;
 	}
+}
+
+//Code block div
+div.highlighter-rouge {
+	width: 100%;
+	overflow: auto;
+	margin-bottom: 1.5rem;
+}
+//Clip code a block div vertically
+div.highlighter-rouge.small-box {
+	height: 20vh;
+}
+div.highlighter-rouge.medium-box {
+	height: 50vh;
+}
+div.highlighter-rouge.big-box {
+	height: 70vh;
 }
 
 //Includes rougify syntax highlighting
