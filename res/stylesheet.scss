@@ -48,6 +48,7 @@ $header-color: #ffffff;
 //HEADER DEFAULT LAYOUT
 .header {
 	display: table;
+	table-layout: fixed;
 
 	width: 100%; //% instead of vw to ignore sidebar
 	height: 25vh;
@@ -167,6 +168,7 @@ $post-description-color: lighten(#000000, 20%);
 //BLOG BODY DEFAULT LAYOUT
 .blog-body {
 	display: table;
+	table-layout: fixed;
 	width: 100%;
 	height: 75vh;
 
@@ -276,6 +278,7 @@ $post-description-color: lighten(#000000, 20%);
 			}
 			.post-info {
 				display: table;
+				table-layout: fixed;
 				width: 100%;
 
 				background-color: $post-info-bg;
@@ -323,6 +326,7 @@ $post-description-color: lighten(#000000, 20%);
 			}
 			.post-info {
 				display: table;
+				table-layout: fixed;
 				width: 100%;
 
 				padding: 1vh 0;

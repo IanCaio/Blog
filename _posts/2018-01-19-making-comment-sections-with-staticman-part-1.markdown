@@ -1,6 +1,6 @@
 ---
 layout: blogpost
-title:  "Making comment sections with Staticman"
+title:  "Making comment sections with Staticman - Part 1"
 author: "Ian Caio"
 date:   2018-01-19 16:57:42 -0200
 header-image: "/imgs/posts/2/staticman.png"
@@ -96,3 +96,6 @@ compromises would be limited to the comment "database" instead of the whole webp
 
 On the next articles I'll go into details on the issues I faced while working in the comment
 system and how I solved them.
+
+#### [Continue to part 2]({{ site.baseurl }}{{ page.next.url }})
+{: .right}
