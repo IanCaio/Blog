@@ -2,7 +2,7 @@
 layout: blogpost
 title:  "Making comment sections with Staticman - Part 2"
 author: "Ian Caio"
-date:   2018-01-20 16:57:42 -0200
+date:   2018-01-20 22:55:31 -0200
 header-image: "/imgs/posts/2/staticman.png"
 comment-section: "https://iancaio.github.io/blog-comments/get/post3comments.json"
 comment-post-link: "https://api.staticman.net/v2/entry/IanCaio/blog-comments/master/post3comments"
@@ -104,8 +104,8 @@ This is where things started getting a little complicated. [Jekyll](https://jeky
 Liquid Template to dynamically modify a static page. On Github Pages, that happens everytime you add some content to the
 repository.
 It's perfect for blogs, where you want to add a link to all the posts on a index page, or maybe add some content to a
-pre-defined layout. However, Jekyll and Liquid are not supposed to be a programming language, so anything that gets too complex
-becomes a *pain in the ass* to be done with them, pardon my french.
+pre-defined layout. However, Jekyll and Liquid are not supposed to be programming languages, so anything that has a higher
+degree of complexity might become a very difficult task when you use them.
 
 <figure class="center medium">
 <img src="{{ site.baseurl }}/imgs/posts/3/JekyllLogo.png" alt="Jekyll Logo" />
