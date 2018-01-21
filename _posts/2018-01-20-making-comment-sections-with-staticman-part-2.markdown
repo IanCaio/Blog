@@ -280,7 +280,7 @@ Here is what the Liquid Template code would look like for a comment section of u
 {%- endfor -%}
 ]
 ```
-{: .medium-box }
+{: .v-medium-box }
 {% endraw %}
 
 ### Some code lines explained
