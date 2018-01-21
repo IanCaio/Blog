@@ -1,3 +1,17 @@
+<!-- Comment Submit Modal -->
+<div id="commentModal" class="comment-modal">
+	<div class="comment-modal-content">
+		<div class="comment-modal-title">
+			<h3>Thank you for sharing your opinion!</h3>
+		</div>
+		<div class="comment-modal-text">
+			<p>Your comment was successfully submitted!</p>
+			<p>Normally it takes around a minute for it to show in the comment section.</p>
+			<h5 onclick="hideModal();">Close [x]</h5>
+		</div>
+	</div>
+</div>
+
 <!-- Start of Comment Section -->
 <div class="comment-section">
 	<h2>Comments</h2>
@@ -8,7 +22,7 @@
 	<div class="comment-form">
 		<h4>Leave a comment</h4>
 		<form id="comment-form-element" method="POST" action="{{ page.comment-post-link }}">
-			<input type="hidden" name="options[redirect]" value="{{ page.url | absolute_url }}"/>
+			<input type="hidden" name="options[redirect]" value="{{ page.url | absolute_url }}#commentSubmitted"/>
 			<h5>Reply ID: <span>(filled automatically)</span></h5>
 			<h5 id="cancel-reply" onclick="replyTo('');">Cancel Reply</h5>
 			<input type="text" name="fields[parent]" readonly/>
@@ -129,9 +143,27 @@
 
 			return currentText;
 		}
+		//Modal functions
+		function hideModal(){
+			document.getElementById("commentModal").style.display = "none";
+		}
+		function showModal(){
+			document.getElementById("commentModal").style.display = "table";
+		}
+		//Modal is shown if the page is loaded with a hash to "commentSubmitted"
+		//i.e.: https://page.io/blog/.../my-post.html#commentSubmitted
+		window.onload = function(){
+			if(document.location.toString().indexOf('#') !== -1){
+				var hash = document.location.toString().replace(/^.*?#/, '');
+				if (hash == "commentSubmitted"){
+					showModal();
+				}
+			}
+		}
 
-		//Load Comments (Later can be a IIFE)
+		//Load the comments and start a interval to reload every 5 seconds
 		loadComments();
+		setInterval(loadComments, 5000);
 		// ==============================================================
 	</script>
 </div>
