@@ -130,8 +130,9 @@
 			return currentText;
 		}
 
-		//Load Comments (Later can be a IIFE)
+		//Load the comments and start a interval to reload every 5 seconds
 		loadComments();
+		setInterval(loadComments, 5000);
 		// ==============================================================
 	</script>
 </div>
