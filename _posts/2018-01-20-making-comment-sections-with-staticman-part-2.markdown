@@ -99,6 +99,7 @@ the folder where Staticman will save the comment files and it should be unique f
 you have.
 
 ## Writing the dynamic JSON comment tree generator
+{: #writing-the-dynamic-comment-tree}
 
 This is where things started getting a little complicated. [Jekyll](https://jekyllrb.com/) allows you to use
 Liquid Template to dynamically modify a static page. On Github Pages, that happens everytime you add some content to the
@@ -354,3 +355,5 @@ On the next article I'll go into how to use Javascript and AJAX to actually fetc
 use it to fill the comment section.
 
 #### [Go back to part 1]({{ site.baseurl }}{{ page.previous.url }})
+#### [Continue to part 3]({{ site.baseurl }}{{ page.next.url }})
+{: .right}
