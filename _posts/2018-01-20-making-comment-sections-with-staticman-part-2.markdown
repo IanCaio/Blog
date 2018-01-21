@@ -4,14 +4,16 @@ title:  "Making comment sections with Staticman - Part 2"
 author: "Ian Caio"
 date:   2018-01-20 16:57:42 -0200
 header-image: "/imgs/posts/2/staticman.png"
+comment-section: "https://iancaio.github.io/blog-comments/get/post3comments.json"
+comment-post-link: "https://api.staticman.net/v2/entry/IanCaio/blog-comments/master/post3comments"
 category: "Front-End"
 ---
-In this article I'll describe how I approached making a comment system using Staticman.
-I wanted the comment system to be compartmentalized, meaning it would be set up
-in a different repository than the website. I also wanted it to allow nested comments. I'll
-go through the whole process, from setting the comment database repository to writing
-the website scripts for accessing it, describing the issues I faced along the way and
-how I circumvented them.
+On the second part of this articles series I describe the overview of the idea I had
+for my comment system and how I took the first step of making it work: Setting up the
+comment database page.
+
+[Click here]({{ site.baseurl }}{{ page.previous.url }})
+if you haven't read the first article and want to take a look at it!
 
 *DISCLAIMER: This article was made for educational purposes only. The comment system was just
 recently deployed and is still under testing. It seems functional and bug free, but I'm not
@@ -27,6 +29,8 @@ concepts to the constraints we find along the way. With this one it wasn't any d
 My constraints here were linked directly to the fact that the blog page and the comment database
 page are both static. That means I'm limited to using client-side scripts and Jekyll (the
 Github pages static site generator).
+As for the basic prerequisites I had for the comment section, basically it should be
+compartmentalized and allow nested comments.
 
 With that in mind, my idea for the comment section consisted of storing the comments
 as JSON files containing all the information of a single comment. Those would be the user name,
@@ -48,7 +52,7 @@ will have access to and post comments in. It will also be the one responsable by
 JSON object with the comments tree.
 
 Go to Github, create a repository (i.e.: "blog-comments"), set up a basic Jekyll page on it and change
-the repository to display a Github page. Then you should follow the
+the repository to enable Github Pages. Then you should follow the
 [instructions](https://staticman.net/docs/index.html) on Staticman's website on how to set up Staticman
 to that repository and add the `staticman.yml` configuration file.
 
@@ -73,7 +77,7 @@ examplecomments:
       format: "iso8601"
 ```
 
-The `allowedFields` parameter will describe all the fields acceptable by the App, while `requiredFields`
+The `allowedFields` parameter will describe all the fields acceptable by Staticman, while `requiredFields`
 will describe the ones required by it. The ones we require are "name" and "comment", since we don't force
 the user to provide a Github account (used only for displaying the avatar) and the "parent" field is
 exclusive of replies.
@@ -96,29 +100,30 @@ you have.
 
 ## Writing the dynamic JSON comment tree generator
 
-Alright, this one is going to be tricky to explain. [Jekyll](https://jekyllrb.com/) allows you to use
-Liquid Template to dynamically modify a static page everytime some new content is added. It's perfect
-for blogs, where you want to add a link to all the posts on a index page, or maybe add some content to a
-pre-defined layout. However, it's not supposed to be a programming language, so anything that gets too complex
-becomes a *pain in the ass* to be done with Jekyll, pardon my french.
+This is where things started getting a little complicated. [Jekyll](https://jekyllrb.com/) allows you to use
+Liquid Template to dynamically modify a static page. On Github Pages, that happens everytime you add some content to the
+repository.
+It's perfect for blogs, where you want to add a link to all the posts on a index page, or maybe add some content to a
+pre-defined layout. However, Jekyll and Liquid are not supposed to be a programming language, so anything that gets too complex
+becomes a *pain in the ass* to be done with them, pardon my french.
 
 <figure class="center medium">
 <img src="{{ site.baseurl }}/imgs/posts/3/JekyllLogo.png" alt="Jekyll Logo" />
 </figure>
 
-To be able to use nested comments in an elegant way, I wanted to have a `<div>` for each comment.
+To be able to markup nested comments in an elegant way, I wanted to have a `<div>` for each comment.
 If the comment is a reply to any other comment, instead of being placed in the comment section's `<div>`
-it would be added inside the comment's `<div>` it was a reply to:
+it would be added inside the comment's `<div>` it was replying to:
 
 ```html
 <div class="post-content">
-  ... <!-- Talks about cats -->
+  ... <!-- Talks about life -->
   <div class="comment-section">
     <div class="comment">
-      ...
+      ... <!-- Some comment -->
     </div>
     <div class="comment">
-      ...
+      ... <!-- Another comment -->
       <div class="comment">
         ... <!-- This comment is a reply -->
       </div>
@@ -127,9 +132,9 @@ it would be added inside the comment's `<div>` it was a reply to:
 </div>
 ```
 
-So the dynamic JSON object should fit that layout, by making a tree with a list of comments, where each
-comment would be an object with the keys and values associated with its comment and, **if** it had any replies,
-a particular key that would be an array with all the replies comment objects. It's something that
+So the dynamic JSON object should fit that layout, by making a tree with a list of comments. Each
+comment would be an object with the properties associated with it and, **if** it has any replies,
+a particular property that would be an array with all the replies comment objects. It's something that
 can be better understood visualized:
 
 ```json
@@ -164,14 +169,17 @@ replies it would go on and on.
 
 Can you feel the smell of **recursion**?
 
-The problem is, like I said, Jekyll is great for static website generation. But terrible for
-more complex programming tasks like the ones which require recursion. It's just not what it was designed
-for. So what do we do?
+The problem is, like I said, the Jekyll/Liquid combo is great for static website generation. But terrible for
+more complex programming tasks like the ones which require recursion. It's just not what they were designed
+for.
+
+So what do we do?
+
 We make some _fake recursion_. That is, we simulate the recursion by simply repeating the code over and over,
 the number of times needed to clear most realistic case scenarios (I was wondering if that would
-classify as some sort of [loop unrolling](https://en.wikipedia.org/wiki/Loop_unrolling)). Since the
+classify as some sort of [loop unrolling](https://en.wikipedia.org/wiki/Loop_unrolling)...). Since the
 code will follow a well-defined pattern, you can write a script that will write the repeated code for you,
-or use the one I have in my [comment database](LINK TO JSON GENERATOR).
+or use the one I have in my [comment database](https://iancaio.github.io/blog-comments/comment-tree-generator).
 
 So what will the Liquid Template code look like? It will have to iterate through all the files in
 the folder containing the page's comments. It will then check if the comment JSON object has a
@@ -281,7 +289,8 @@ Here is what the Liquid Template code would look like for a comment section of u
 {% raw %}
 `{%- assign level1_first_obj = true -%}`{: .language-yaml}: Variable that tells if the object being
 added in the current level is the first one. It's used to find out if we need to add a _comma_ before
-appending the object.
+appending the object. Otherwise we would have `[{"object":"1"}{"object":"2"}]`{: .language-json} which
+is invalid JSON.
 
 `{%- assign folder_files1 = site.data.examplecomments | sort -%}`{: .language-yaml}: Variable that will
 hold a list of the alphabetically sorted comments in the *_data/examplecomments* folder of your comment
@@ -296,27 +305,28 @@ file.
 `{%- unless level1.parent -%}`{: .language-yaml}: Since we are in the root level (level 1), we only add
 the comment to the object tree if it doesn't have a parent.
 
-`"name":{{ level1.name | jsonify }},`{: .language-yaml}: Adds information to the comment object. We need
-to add the _comma_ to the end if it's not the last property on the object. We also apply the `jsonify` filter
-to convert the content of the property to JSON format (this will escape newlines, tabs and other
-invalid characters on the JSON file, also adding the surrounding quotes).
+`"name":{{ level1.name | jsonify }},`{: .language-yaml}: Adds information to the comment object.
+We apply the `jsonify` filter to convert the content of the property to JSON format (this will escape
+newlines, tabs and other invalid characters on the JSON file, also adding the surrounding quotes).
 
-`{%- if level1_children == true -%}`{: .language-yaml}: Previously to that line, we iterated through all
-the files in the *_data/examplecomments* folder and checked if any of them had a `parent` key with a value
-equal to the current comment ID. If it has, we add the `reply` field and start the next level loop.
+`{%- if level1_children == true -%},"reply": [`{: .language-yaml}: Previously to that line, we iterated through all
+the files in the *_data/examplecomments* folder and checked if any of them have a `parent` key with a value
+equal to the current comment ID. If any of them have, we add the `reply` field and start the next level loop
+to fill the `reply` array with those.
 
 `{%- if level2.parent == level1._id -%}`{: .language-yaml}: While iterating all the comments on the second
-nesting level, we only add them if their `parent` value is equal to the current comment ID.
+nesting level, we only add them to the `reply` array if their `parent` value is equal to the current comment ID.
 {: .extra-margin }
 {% endraw %}
 
 I believe the previous pieces of the code are the most important to understand what the script is doing.
 I didn't chose a 3 level snippet randomly, but because it's the smallest snippet where you'll notice the
-3 patterns that will be present on every single generated code, regardless of how many levels you'll support:
+3 patterns that will be present on every single generated code, regardless of how many levels you'll iterate:
 The pattern for the root level (level 1) comments, the pattern for comments that are not in the
 first nor in the last level (level 2) and the pattern for the comments in the last level (level 3).
 
-What my JSON generator link does is simply organize and repeat those patterns for the ammount
+What my [comment tree generator](https://iancaio.github.io/blog-comments/comment-tree-generator)
+does is simply organize and repeat those patterns for the ammount
 of times you ask it to, replace the level numbers on the places they should be replaced and use
 the defined folder variable (i.e.: `site.data.examplecomments`).
 
@@ -325,20 +335,22 @@ you generate, they will simply be ignored. I believe 10 nesting levels should be
 close to that will be visually annoying, and unless you have a very high traffic page isn't very likely
 to happen. If you have lots of traffic you could just set it for a very high number. I don't even think
 it will affect performance that much, because the inner loops will only be ran if we actually find a file
-on that nesting level (so if you have 100 nesting levels, the 100th level snippet will not be reached
+on that nesting level (so if you have 100 nesting levels, the 100th level loop piece of the code will not be reached
 unless there is a file on that level). **But that's only an assumption!**
 
 After generating the dynamic JSON object tree file, you can save it in a place like `/get/examplecomments.json`.
-By doing that, when you request the file from _https://username.github.io/comment-database/get/examplecomments.json_,
+By doing that, when you request the file from `https://username.github.io/comment-database/get/examplecomments.json`,
 you will fetch the final generated JSON object tree.
 {: .extra-margin}
 
-#### [Check this page's comment database!](https://github.com/IanCaio/blog-comments)
+#### [Check this blog comment database!](https://github.com/IanCaio/blog-comments)
 {: .center .extra-margin}
 
-This step of building the comment system is probably the most complicated one. Hopefully I did at least a decent job
-explaining it. If you think I could improve something in the explanation of have any doubts feel free
+This step of building the comment system is probably the hardest one. Hopefully I did at least a decent job
+explaining it. If you think I could improve something in the explanation or have any doubts feel free
 to comment below.
 
 On the next article I'll go into how to use Javascript and AJAX to actually fetch the comment tree and
 use it to fill the comment section.
+
+#### [Go back to part 1]({{ site.baseurl }}{{ page.previous.url }})
