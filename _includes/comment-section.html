@@ -91,7 +91,7 @@
 			xhttp.send();
 		}
 		//Formating the comment strings (dealing with line breaks and escaping HTML)
-		function formatStr(str){
+		function formatHTMLStr(str){
 			var formated_str = String(str);
 
 			//Escape HTML
@@ -115,6 +115,12 @@
 
 			return formated_str;
 		}
+		//Captures the first stream of characters that are a letter, a number or a hifen (the ones used on the comment ID)
+		function formatIDStr(str){
+			var formated_str = String(str);
+
+			return formated_str.match(/^([0-9]|[a-zA-Z]|-)*/g)[0];
+		}
 		//Building the comment HTML
 		function buildComments(JSONArr){
 			var currentText = "";
@@ -123,17 +129,17 @@
 				currentText += "<div class=\"comment\">\n";
 				currentText += "\t<div class=\"comment-avatar\">\n";
 				if(JSONArr[i].github){
-					currentText += "\t\t<img src=\"https://avatars.githubusercontent.com/"+encodeURI(formatStr(JSONArr[i].github))+"\">\n";
+					currentText += "\t\t<img src=\"https://avatars.githubusercontent.com/"+encodeURI(formatHTMLStr(JSONArr[i].github))+"\">\n";
 				} else {
 					currentText += "\t\t<img src=\"https://avatars.githubusercontent.com/staticmanapp\">\n";
 				}
 				currentText += "\t</div>\n";
 				currentText += "\t<div class=\"comment-body\">\n";
-				currentText += "\t\t<p><strong>"+formatStr(JSONArr[i].name)+"</strong> <em>"+formatStr(JSONArr[i].date)+"</em></p>\n";
-				currentText += "\t\t<p>"+formatStr(JSONArr[i].comment)+"</p>\n";
+				currentText += "\t\t<p><strong>"+formatHTMLStr(JSONArr[i].name)+"</strong> <em>"+formatHTMLStr(JSONArr[i].date)+"</em></p>\n";
+				currentText += "\t\t<p>"+formatHTMLStr(JSONArr[i].comment)+"</p>\n";
 				currentText += "\t</div>\n";
 				currentText += "\t<div class=\"comment-controls\">\n";
-				currentText += "\t\t<h6><a href=\"#comment-form-element\" onclick=\"replyTo('"+JSONArr[i].id+"');\">Reply</a></h6>\n";
+				currentText += "\t\t<h6><a href=\"#comment-form-element\" onclick=\"replyTo('"+formatIDStr(JSONArr[i].id)+"');\">Reply</a></h6>\n";
 				currentText += "\t</div>\n";
 				if(JSONArr[i].reply){
 					currentText += buildComments(JSONArr[i].reply);
