@@ -37,7 +37,7 @@ nesting:
 ```
 
 What the snippet above is doing is adding a left padding of 5% to the comments. That way, when
-you nest a comment inside another, the padding will move the inside comment a little to the
+you add a comment inside another, the padding will move the inside comment a little to the
 right, resulting in that nested look.
 
 However, when you have 5 or more nested comments there will be no more left padding. This
@@ -55,28 +55,32 @@ aligned vertically up to the 8th.
         | 7th comment
         | 8th comment
 ```
+{: .h-small-box .center .no-margin}
 
-The comment section styling is up to your creativity. You have the information in your hands,
-and can decide how to display it yourself. You could follow the traditional comment section
-layout, or you can be bold and try something completely new. Maybe a carousel with the comments
+Limiting the nesting to 5 levels
+{: .small-text .center}
+
+The comment section styling is up to your creativity. You have the information in your hands
+and get to decide how to display it yourself. You could follow the traditional comment section
+layout, or you could be bold and try something completely new. Maybe a carousel with the comments
 and their answers below them? In terms of design you're not limited as you'd be if you were using
 a third-party comment system.
 
 ## Writing the Javascript code to build the comment section
 
-Before going to the code let's go through what it is supposed to do:
+Before going to the code itself let's review what it is supposed to do:
 
 First, it should make a HTTP Request for the comment database, asking for the dynamic JSON
 comment tree file (described in the [previous article]({{ site.baseurl }}{{ page.previous.url }})).
-The file will be fetched and parsed to a Javascript object.
+The file will be fetched and parsed to become a Javascript object.
 
 If the Javascript object is empty, it means we have no comments, so we display a message stating it.
 If it's not empty, we will use the object to create all the comment HTML markup and add it to our
 comment section. It should be done respecting the nesting of the comment tree.
 
-While creating the comment HTML markup we should be very careful to sanitize the content we will
+While creating the HTML markup we should be very careful to sanitize the content we will
 add to the page, to avoid potential script injection. We also will have to convert some special
-character so they are displayed properly. New lines for example, should be transformed to
+character so they are displayed properly. New lines for example, should be replaced with
 `<br />`{: .language-html} tags.
 
 Finally, we can set a Interval to be constantly updating the comment section without requiring the user
@@ -127,17 +131,17 @@ function buildComments(JSONArr){
     currentText += "<div class=\"comment\">\n";
     currentText += "\t<div class=\"comment-avatar\">\n";
     if(JSONArr[i].github){
-      currentText += "\t\t<img src=\"https://avatars.githubusercontent.com/"+encodeURI(formatStr(JSONArr[i].github))+"\">\n";
+      currentText += "\t\t<img src=\"https://avatars.githubusercontent.com/"+encodeURI(formatHTMLStr(JSONArr[i].github))+"\">\n";
     } else {
       currentText += "\t\t<img src=\"https://avatars.githubusercontent.com/staticmanapp\">\n";
     }
     currentText += "\t</div>\n";
     currentText += "\t<div class=\"comment-body\">\n";
-    currentText += "\t\t<p><strong>"+formatStr(JSONArr[i].name)+"</strong> <em>"+formatStr(JSONArr[i].date)+"</em></p>\n";
-    currentText += "\t\t<p>"+formatStr(JSONArr[i].comment)+"</p>\n";
+    currentText += "\t\t<p><strong>"+formatHTMLStr(JSONArr[i].name)+"</strong> <em>"+formatHTMLStr(JSONArr[i].date)+"</em></p>\n";
+    currentText += "\t\t<p>"+formatHTMLStr(JSONArr[i].comment)+"</p>\n";
     currentText += "\t</div>\n";
     currentText += "\t<div class=\"comment-controls\">\n";
-    currentText += "\t\t<h6><a href=\"#comment-form-element\" onclick=\"replyTo('"+formatStr(JSONArr[i].id)+"');\">Reply</a></h6>\n";
+    currentText += "\t\t<h6><a href=\"#comment-form-element\" onclick=\"replyTo('"+formatIDStr(JSONArr[i].id)+"');\">Reply</a></h6>\n";
     currentText += "\t</div>\n";
     if(JSONArr[i].reply){
       currentText += buildComments(JSONArr[i].reply);
@@ -157,36 +161,35 @@ for(var i = 0; i < JSONArr.length; i++){
 {: .small-margin}
 
 This is the loop that is going to iterate through all the messages on the current level. This could be the
-root level messages, or one of the replies depending if the function was called from the AJAX state change
+root level messages, or one of the replies depending whether the function was called from the AJAX state change
 scope or from inside the `buildComments();`{: .language-javascript} function recursively.
 {: .small-text}
 
 ```javascript
-currentText += "\t\t<img src=\"https://avatars.githubusercontent.com/"+encodeURI(formatStr(JSONArr[i].github))+"\">\n";
+currentText += "\t\t<img src=\"https://avatars.githubusercontent.com/"+encodeURI(formatHTMLStr(JSONArr[i].github))+"\">\n";
 ```
 {: .small-margin}
 
-This is used in the case the user provides a Github account when commenting. It will display the user's Github avatar instead of the default one (staticmanapp's avatar). We sanitize the string with `formatStr();`{: .language-javascript} and encode it to a URL format with
+This is used in the case the user provides a Github account when commenting. It will display the user's Github avatar instead of the default one (staticmanapp's avatar). We sanitize the string with `formatHTMLStr();`{: .language-javascript} and encode it to a URL format with
 `encodeURL();`{: .language-javascript}.
 {: .small-text}
 
 ```javascript
-currentText += "\t\t<p><strong>"+formatStr(JSONArr[i].name)+"</strong> <em>"+formatStr(JSONArr[i].date)+"</em></p>\n";
+currentText += "\t\t<p><strong>"+formatHTMLStr(JSONArr[i].name)+"</strong> <em>"+formatHTMLStr(JSONArr[i].date)+"</em></p>\n";
+currentText += "\t\t<p>"+formatHTMLStr(JSONArr[i].comment)+"</p>\n";
 ```
 {: .small-margin}
 
-This fills the body comment with the message, after sanitizing it with `formatStr();`{: .language-javascript}.
+This fills the comment with its content, after sanitizing it with `formatHTMLStr();`{: .language-javascript}.
 {: .small-text}
 
 ```javascript
-currentText += "\t\t<h6><a href=\"#comment-form-element\" onclick=\"replyTo('"+formatStr(JSONArr[i].id)+"');\">Reply</a></h6>\n";
+currentText += "\t\t<h6><a href=\"#comment-form-element\" onclick=\"replyTo('"+formatIDStr(JSONArr[i].id)+"');\">Reply</a></h6>\n";
 ```
-{: .small-margin}
+{: .small-margin #replyTo-html-markup}
 
-This line is used to set up the reply link. I won't describe the reply feature, because it's also out of the scope of that article, but essentially it fills a readonly field on the commenting form with the ID of the message the user is replying to. That field will fill the `parent` value of the comment posted.
-**Note:** Right now the `formatStr();`{: .language-javscript} is being used to sanitize the ID field, but since it's being used inside
-a Javascript code **it's not enough!**. The only reason I didn't update it **yet** is the fact this field is automatically filled by
-Staticman. If Staticman is compromised however, Javascript code could be injected through this variable.
+This line is used to set up the reply link. It creates an event listener on the link that will fill the `<input>`{: .language-html}
+of the `parent` field with the comment ID of the comment we want to reply to.
 {: .small-text}
 
 ```javascript
@@ -201,11 +204,20 @@ This snippet calls the same function recursively to add the replying comments ma
 
 ### Sanitizing the values
 
-To avoid Cross-Site Scripting attacks, we must first sanitize the values we have in the comments before adding them to the
-page markup.
+To avoid [Cross-Site Scripting](https://en.wikipedia.org/wiki/Cross-site_scripting)
+attacks, we must first sanitize the values we have in the comments before adding them to the
+page markup. This is something that have to be well thought, and constantly reviewed. It's easy to forget the context where
+the values are being added and allow some bad characters to bypass the filtering.
 
-The function we use to sanitize the values basically creates a map that will be used to change certain special characters to
-their equivalent HTML escaped codes.
+For example, when we add content to the inner HTML of some element, we will escape a list of HTML special characters,
+but will probably allow parenthesis, since they are valid in a comment. But if we are adding a variable inside a Javascript context,
+parenthesis could be a concern. Always think about what characters **can't** be included where you're appending the value
+and clear anything. Or take the opposite approach and be very conservative of what you're allowing, if that's an option.
+
+So far I'm using 2 functions to sanitize the values: `formatHTMLStr();`{: .language-javascript}
+and `formatIDStr();`{: .language-javascript}. The former escapes a list
+of special HTML characters and convert newlines to `<br />`. The latter takes the conservative approach and allows the ID
+to **only** contain alphanumeric characters or hifens starting from the beginning of the string.
 
 ```javascript
 var escapeMap = {
@@ -223,5 +235,93 @@ var escapeMap = {
 
 The map used to escape special HTML characters
 {: .center .small-text}
+
+Be sure to give this some consideration, since a bad sanitized comment section is a very compromising spot of your website,
+and an open invitation to XSS attacks.
+
+## Problem with optional fields
+
+If you have optional fields on your comment system (in my case the `parent` and `github` fields) and include a
+`<input>`{: .language-html} element for them, even if they are empty an empty string will be sent and you will have
+Staticman adding an object that looks something like this:
+
+```json
+{ "name":"Mike", "parent":"", "comment":"Hello!" }
+```
+
+Now check the following line we have on the dynamic comment tree Jekyll code from the previous article:
+
+{% raw %}
+```liquid
+{%- for level1_file in folder_files1 -%}
+{%- assign level1 = level1_file[1] -%}
+{%- unless level1.parent -%}
+...
+{%- endunless -%}
+{%- endfor -%}
+```
+{% endraw %}
+
+Because of the way the dynamic comment tree is currently written, it's required that root comments **don't have any parent
+fields**, even if they are empty. That means that those would not show in the comment tree. We can either work
+on the Jekyll code to allow empty `parent` fields or work on the client-side so empty fields are not sent:
+
+```javascript
+//Avoid empty github or parent input to be sent
+var commentForm = document.getElementById("comment-form-element");
+  commentForm.addEventListener("submit", function(){
+    var inputField = commentForm.getElementsByTagName("input");
+
+    for(var i = 0; i < inputField.length; i++){
+      //If the github field has no value but has a name (active) deactivate it (name="")
+      if ((inputField[i].name == "fields[github]") && !inputField[i].value){
+        inputField[i].name = "";
+      }
+      //If the parent field has no value but has a name (active) deactivate it (name="")
+      if ((inputField[i].name == "fields[parent]") && !inputField[i].value){
+        inputField[i].name = "";
+      }
+    }
+});
+```
+
+## Replying comments
+
+To be able to reply to a comment, we need to send an extra field to Staticman, called `parent`, with the ID of the comment
+we are replying to. As it was seem [here](#replyTo-html-markup), when the user clicks the *Reply* link, we
+are calling a function called `replyTo();`{: .language-javascript} with the comment ID as an argument.
+
+```javascript
+//Fill reply field (parent field) => replyTo("ID"); to reply to ID and replyTo("") to cancel reply
+function replyTo(id){
+  var inputField = commentForm.getElementsByTagName("input");
+
+  for(var i = 0; i < inputField.length; i++){
+    if(inputField[i].name == "fields[parent]"){
+      inputField[i].value = id;
+    }
+  }
+
+  //Show cancel button if we are adding a reply, remove it if we are removing a reply
+  if(id) {
+    document.getElementById("cancel-reply").style.display = "block";
+  } else {
+    document.getElementById("cancel-reply").style.display = "none";
+  }
+}
+```
+
+The function simply adds the ID value to a readonly `<input>`{: .language-html} that is going
+to send the `parent` value when the form is submitted. It also displays a link to cancel the reply, that is
+just a link that calling this function with an empty argument. When the ID is empty, the function resets the
+`<input>`{: .language-html} value and hides the cancel link.
+
+## Conclusion
+
+I hope you enjoyed the articles and that they were helpful for you to develop your own comment system. I tried to
+mention the most important points of the process, but if you are curious about some particularity of how I implemented
+my comment system check the page source code and the comment database repository. If you have any doubts on the code
+feel free to comment asking about it. If you have some insight of how to make it better (or fix any flaws) I'd love
+to hear it too!
 
 #### [Go back to part 2]({{ site.baseurl }}{{ page.previous.url }})
