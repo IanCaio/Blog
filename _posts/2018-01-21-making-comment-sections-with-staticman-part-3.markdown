@@ -118,6 +118,13 @@ any comments and we display a message stating it.
 Otherwise we send the object to `buildComments();`{: .language-javascript}, which is going to build the comment section with the
 object information, and assign the returned value to the inner HTML of the comment section `<div>`{: .language-html}.
 
+If we want the comment section to update itself automatically (without requiring the user to reload the page) we
+can set a Interval that will call this function every number of seconds:
+
+```javascript
+setInterval(loadComments, 5000);
+```
+
 ### Building the comment section
 
 To build the comment section, we first create a variable that will hold all the HTML markup we will have inside
