@@ -151,6 +151,19 @@
 		}
 		//Modal functions
 		function hideModal(){
+			//What triggers the modal in the current page is it being loaded with the hash link #commentSubmitted.
+			//The problem is that the hash link will still be in the browser URL when the user closes
+			//the modal, so if the page is refreshed/reloaded (F5/Shift+F5) the modal will pop up again.
+			//To avoid this, we first replace the hash link with an empty hash ("#"), which by itself will
+			//avoid the modal poping up again, and if history.replaceState is supported we finally remove the
+			//empty hash from the URL.
+			window.location.replace("#"); //Now the hash link is empty (i.e.: "blog.com/#" instead of "blog.com/#hashlink")
+			//If the browser supports replaceState, use it to remove the final hash from the URL
+			//See: https://stackoverflow.com/a/13824103/6676042
+			if (typeof window.history.replaceState == "function"){
+				history.replaceState({}, '', window.location.href.slice(0,-1));
+			}
+
 			document.getElementById("commentModal").style.display = "none";
 		}
 		function showModal(){
