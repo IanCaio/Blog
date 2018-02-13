@@ -13,7 +13,7 @@ I want to start writing on this blog talking about an issue that probably haunts
 It's a very controversal discussion, where you can find all different sets of opinions. So many that adding to this discussion is a difficult task. One thing that is common ground between all those divergent lines of thought, is that you should support what your client **needs** (slash requires) you to support. Sounds obvious, but sometimes those needs are not clear and show up in surprising ways.
 
 <figure class="center medium">
-<img src="{{site.baseurl}}/imgs/posts/1/oldcomputer.jpeg" alt="old computer"/>
+<img src="{{site.baseurl}}/imgs/posts/1/oldcomputer.jpeg" alt="old computer" />
 <figcaption>What if that's the kind of computer your client is using?</figcaption>
 </figure>
 
