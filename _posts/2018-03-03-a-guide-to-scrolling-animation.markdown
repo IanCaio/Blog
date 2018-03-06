@@ -4,6 +4,8 @@ title:  "A guide to using Scrolling Animation"
 author: "Ian Caio"
 date:   2018-03-04 02:49:31 -0300
 category: "Front-End"
+comment-section: "https://iancaio.github.io/blog-comments/get/post5comments.json"
+comment-post-link: "https://api.staticman.net/v2/entry/IanCaio/blog-comments/master/post5comments"
 header-image: "/imgs/posts/headerFrontEnd.png"
 ---
 While working on a webpage, I had interest in using animations activated by the scrolling
