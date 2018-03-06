@@ -4,12 +4,18 @@ title:  "A guide to using Scrolling Animation"
 author: "Ian Caio"
 date:   2018-03-04 02:49:31 -0300
 category: "Front-End"
+header-image: "/imgs/posts/headerFrontEnd.png"
 ---
 While working on a webpage, I had interest in using animations activated by the scrolling
 to display some content in a more dynamic way. This is not an uncommon effect on websites, and there
 are some third-party plugins out there that will get the job done. However, I was interested
 in writing my own implementation for simple animations. In this article, I'll present the script
 I wrote and instructions of how to use it!
+
+## Where to get it?
+
+Github Project Page - [https://github.com/IanCaio/ScrollingAnimation](https://github.com/IanCaio/ScrollingAnimation)  
+Project Description Page (with demonstration) - [https://iancaio.github.io/ScrollingAnimation](https://iancaio.github.io/ScrollingAnimation)
 
 ## Why did you write it?
 
