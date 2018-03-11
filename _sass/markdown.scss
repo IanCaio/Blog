@@ -2,6 +2,12 @@
 $blockquote-bg: lighten(#000000, 90%);
 $blockquote-border: lighten($header-bg, 8%);
 
+$table-head-bg: $header-bg;
+$table-row-bg-1: darken(#FFFFFF, 15%);
+$table-row-bg-2: darken(#FFFFFF, 25%);
+$table-border-1: darken(#FFFFFF, 30%);
+$table-border-2: darken($header-bg, 10%);
+
 //HERE YOU WILL SET ALL THE MARKUP AND CONTENT LAYOUT:
 //Special image that works as a header (negative margin to ignore padding)
 .header-image {
@@ -116,6 +122,52 @@ blockquote {
 		text-align: right;
 		padding-right: 0.5rem;
 		font-size: 0.9rem;
+	}
+}
+
+//Tables
+table {
+	margin: 1.5rem auto;
+	border-collapse: collapse;
+}
+thead {
+	background-color: $table-head-bg;
+}
+td {
+	border: 1px solid $table-border-1;
+}
+th {
+	border: 1px solid $table-border-2;
+}
+table, th, td {
+	padding: 0.3rem;
+	text-align: center;
+}
+tbody {
+	tr:nth-child(odd){
+		background-color: $table-row-bg-1;
+	}
+	tr:nth-child(even){
+		background-color: $table-row-bg-2;
+	}
+}
+
+//Ordered lists
+ol {
+	margin-bottom: 1.5rem;
+	padding-left: 1rem;
+
+	li {
+		list-style-position: inside;
+	}
+}
+//Unordered lists
+ul {
+	margin-bottom: 1.5rem;
+	padding-left: 1rem;
+
+	li {
+		list-style-position: inside;
 	}
 }
 
