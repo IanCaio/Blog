@@ -89,19 +89,19 @@ the value will actually be 20000 or less, depending on the threads synchronizati
 Here's the output of the program after being executed 7 times in a row:
 
 ```
-$: ./race\_condition
+$: ./race_condition
 Value of number: 15290
-$: ./race\_condition
+$: ./race_condition
 Value of number: 20000
-$: ./race\_condition
+$: ./race_condition
 Value of number: 19674
-$: ./race\_condition
+$: ./race_condition
 Value of number: 19320
-$: ./race\_condition
+$: ./race_condition
 Value of number: 12550
-$: ./race\_condition
+$: ./race_condition
 Value of number: 19407
-$: ./race\_condition
+$: ./race_condition
 Value of number: 15036
 ```
 
