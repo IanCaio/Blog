@@ -297,3 +297,93 @@ struct {
 // It's also safe to access myStruct.c and myStruct.e simultaneously because they are not adjacent
 // (there is another non-bit-field type between them).
 ```
+
+If we have a system that has a byte (8-bits) as the minimum memory location size, adjacent bit-fields would possibly be stored
+as described below (__NOTE:__ there's no specification on the layout of bit-fields in memory, the following layout is just an example of
+why bit-fields aren't guaranteed to be in the same memory location and the implications of this):
+
+<figure class="center medium">
+<img src="{{ site.baseurl }}/imgs/posts/6/bitfield.svg" alt="Bit-field 1" />
+<figcaption>Adjacent bit-fields</figcaption>
+</figure>
+
+But if we add a zero-length bit-field between adjacent bit-fields, we force them to be stored in different memory locations:
+
+<figure class="center medium">
+<img src="{{ site.baseurl }}/imgs/posts/6/bitfield2.svg" alt="Bit-field 2" />
+<figcaption>Adjacent bit-fields separated by a zero-length bit-field</figcaption>
+</figure>
+
+### Why does it matter whether they share a memory location if we are modifying only the value of an individual bit-field?
+
+The C11 standard defines the term _access_ as:
+
+> __3.1 access__
+>
+> (execution time action) to read or modify the value of an object  
+> ...  
+> NOTE 2 "Modify" includes the case where the new value being stored is the same as the previous value.
+
+When we are modifying the value of a single bit-field, we are actually writing to the whole memory location. We change the value
+in the bits that are being manipulated and keep all other bits with their previous values. But as stated above, we are also modifying
+a value if the new value is the same as the previous one.
+
+Imagine the scenario below:
+
+```c
+struct {
+  char a:4, b:4;
+} myStruct;
+
+// Initial value: 1111 0001 (a = 1111 and b = 0001)
+myStruct.a = 0xF;
+myStruct.b = 0x1;
+
+// Thread 1:
+myStruct.a = 0xA; // 1010
+// Thread 2:
+myStruct.b = 0x8; // 1000
+```
+
+Still considering the system we are using has a minimum memory location size of 8-bits and that the bit-fields layout in the beginning
+of the program is `1111 0001`, one could wrongly assume that the new value of `myStruct.a` would be `1010` and the new value of `myStruct.b`
+would be `1000`, resulting in `1010 1000`. What truly happens is:
+
+If the thread 1 assigns `1010` to `myStruct.a`, it'll read the value of the memory location, assign a new value to it that updates the value
+of `myStruct.a` but preserves the older value of `myStruct.b`, and write the new value to the memory location. Supposing we still
+had the initial value of `1111 0001` the operation would look like this:
+
+| Thread 1                     |   | Memory Value |
+|------------------------------|---|--------------|
+|                              |   | 11110001     |
+|       Read (value: 11110001) | ← | 11110001     |
+| Modify (new value: 10100001) |   | 11110001     |
+|       Write                  | → | 10100001     |
+
+Now, if the thread 2 tried to assign `1000` to `myStruct.b` at the same time, we could have the following situation:
+
+| Thread 1                          | Thread 2                           |   | Memory Value |
+|-----------------------------------|------------------------------------|---|--------------|
+|                                   |                                    |   | 11110001     |
+|       Read (value: 11110001)      |                                    | ← | 11110001     |
+|                                   |       Read (value: 11110001)       | ← | 11110001     |
+| Modify (new value: 10100001)      |                                    |   | 11110001     |
+|                                   | Modify (new value: 11111000)       |   | 11110001     |
+|       Write                       |                                    | → | 10100001     |
+|                                   |       Write                        | → | 11111000     |
+
+Because the thread 2 read the old value of `myStruct.a` before modifying `myStruct.b`, we end up overwriting the changes
+that thread 1 did to `myStruct.a` value in the last step.
+
+As said before, this is not necessarily an accurate portrait of every implementation, since the standard doesn't specify
+the memory layout of bit-fields, but it's an example of why adjacent bit-fields without zero-length
+are not guaranteed to be in different memory locations.
+
+# Conclusion
+
+This was a very conceptual article, a bit hard to write in an instructive way (so I'm sorry for maybe creating some confusion
+in some topics), but it's interesting to explore deeper areas of the C standard. We find out fragile points of our C language
+understanding and build a better foundation on understanding what it really is. Not only that, but we find practical cases
+where a shallow knowledge of the language would lead to errors and learn how to circumvent them. The bit-field race condition is
+a big example: Until we have a deeper understanding of the memory abstraction in C we might make wrong assumptions and end up
+hunting one of the worse types of bugs out there without even realizing where we introduced it.
