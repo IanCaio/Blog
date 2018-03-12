@@ -4,6 +4,8 @@ title:  "C11 - Memory Location"
 author: "Ian Caio"
 date:   2018-03-11 20:49:36 -0300
 category: "Others"
+comment-section: "https://iancaio.github.io/blog-comments/get/post6comments.json"
+comment-post-link: "https://api.staticman.net/v2/entry/IanCaio/blog-comments/master/post6comments"
 header-image: "/imgs/posts/headerOthers.png"
 ---
 While writing the introductory blog article about the C11 standard, I noticed there was a concept
@@ -19,7 +21,7 @@ Most Operating Systems will break down any
 memory, _Modifying_ the value in the registers and _Writing_ the new value back to memory.
 
 <figure class="center medium">
-<img src="{{ site.baseurl }}/imgs/posts/5/memoryoperation.svg" alt="Memory Operation" />
+<img src="{{ site.baseurl }}/imgs/posts/6/memoryoperation.svg" alt="Memory Operation" />
 <figcaption>Memory Operation Steps</figcaption>
 </figure>
 
@@ -125,7 +127,7 @@ others space, but modifying both objects simultaneously in different
 threads will not be safe, because the system will be modifying the same memory block.
 
 <figure class="center medium">
-<img src="{{ site.baseurl }}/imgs/posts/5/memorylocation.svg" alt="Memory Location" />
+<img src="{{ site.baseurl }}/imgs/posts/6/memorylocation.svg" alt="Memory Location" />
 <figcaption>Two objects sharing the same memory location</figcaption>
 </figure>
 

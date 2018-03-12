@@ -50,7 +50,7 @@ properties are defined in two Javascript objects that represent the state of the
 animation begins and after it ends: the _animation beginning state_ and _animation ending state_.
 
 <figure class="center large">
-<img src="{{ site.baseurl }}/imgs/posts/4/costates.svg" alt="Controlled Object States" />
+<img src="{{ site.baseurl }}/imgs/posts/5/costates.svg" alt="Controlled Object States" />
 <figcaption>Controlled Object States</figcaption>
 </figure>
 
@@ -67,7 +67,7 @@ according to the current position and its distance to each triggering point. Whe
 the animation is in the _Done_ state, where the controlled object state will be equal to the animation ending state.
 
 <figure class="center medium">
-<img src="{{ site.baseurl }}/imgs/posts/4/animationtriggers.svg" alt="Animation Triggers" />
+<img src="{{ site.baseurl }}/imgs/posts/5/animationtriggers.svg" alt="Animation Triggers" />
 <figcaption>Animation Triggers and States</figcaption>
 </figure>
 
@@ -96,7 +96,7 @@ set the triggering points __placing them in the same position__. That way, the a
 to _Done_ instantly and CSS transitions will take care of making the state change smoothly.
 
 <figure class="center medium">
-<img src="{{ site.baseurl }}/imgs/posts/4/positiontriggered.svg" alt="Position Triggered Animations" />
+<img src="{{ site.baseurl }}/imgs/posts/5/positiontriggered.svg" alt="Position Triggered Animations" />
 <figcaption>Position Triggered Animations</figcaption>
 </figure>
 
